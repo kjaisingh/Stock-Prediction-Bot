@@ -64,11 +64,11 @@ test = dataset[size:, :]
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled_data = scaler.fit_transform(dataset)
 
-# each training instance uses data from the previous 30 days
+# each training instance uses data from the previous 75 days
 x_train = []
 y_train = []
-for i in range(30, len(train) - 30):
-    x_train.append(scaled_data[i - 30:i, 0])
+for i in range(75, len(train) - 75):
+    x_train.append(scaled_data[i - 75:i, 0])
     y_train.append(scaled_data[i, 0])
 
 # reshaping training arrays
@@ -82,9 +82,9 @@ y_train = np.array(y_train)
 # --------------------------
 # create and fit the LSTM network
 model = Sequential()
-model.add(LSTM(units = 30, return_sequences = True, 
+model.add(LSTM(units = 75, return_sequences = True, 
                input_shape = (x_train.shape[1], 1)))
-model.add(LSTM(units = 30))
+model.add(LSTM(units = 100))
 model.add(Dense(10))
 model.add(Dense(1))
 
@@ -93,22 +93,27 @@ model.add(Dense(1))
 # PART 5: MODEL TRAINING
 # --------------------------
 model.compile(loss = 'mean_squared_error', optimizer = 'adam')
-model.fit(x_train, y_train, epochs = 1, batch_size = 1)
+EPOCHS = 3
+BATCH_SIZE = 50
+TRAIN_SIZE = np.size(0)
+model.fit(x_train, y_train, 
+          epochs = EPOCHS, 
+          batch_size = BATCH_SIZE)
 model.save('stock-predictor.h5')
 
 
 # --------------------------
 # PART 6: TEST DATA CREATION
 # --------------------------
-# create and scale test data using previous stock prices from previous 30 days
-inputs = processed_data[len(processed_data) - len(test) - 30:].values
+# create and scale test data using previous stock prices from previous 75 days
+inputs = processed_data[len(processed_data) - len(test) - 75:].values
 inputs = inputs.reshape(-1, 1)
 inputs  = scaler.transform(inputs)
 
 # format testing dataset
 x_test = []
-for i in range(30, inputs.shape[0]):
-    x_test.append(inputs[i-30:i, 0])
+for i in range(75, inputs.shape[0]):
+    x_test.append(inputs[i - 75:i, 0])
 x_test = np.array(x_test)
 x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 
