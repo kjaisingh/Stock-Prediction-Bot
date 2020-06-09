@@ -2,6 +2,7 @@
 A Python script that produces predictions for recent stock activity for a given stock.
 Utilizes an LSTM network to generate predictions by using the stock activity over the past 75 days to generate a stock price prediction for the next day.
 
+## Execution Process
 1. Install the required dependencies.
 ~~~~
 pip install requests_html
@@ -20,11 +21,11 @@ python retrieve.py -s <stock-ticker-symbol>
 python train.py
 ~~~~~~~~ 
 
-The following output files are created during the process:
+## Generated Output Files
 * stock_data.csv: A dataset with the retrieved stock price data for the required stock.
 * results.png: A graph of the recent stock price predictions.
 * stock-predictor.h5: A saved model of the LSTM network.
 * scaler.save: A saved model of the Scaler used to process data.
 
-A sample results.png graph is seen as follows:
+## Sample Prediction Graph
 <img src="results.png"> 
