@@ -1,6 +1,6 @@
 # Stock Prediction Bot
-A Python script that produces predictions for recent stock activity for a given stock.
-Utilizes an LSTM network to generate predictions by using the stock activity over the past 75 days to generate a stock price prediction for the next day.
+A Python script that produces predictions for stock activity of a given stock.
+Utilizes an LSTM network to generate predictions by using the stock activity over the past 75 days to generate a prediction for a stock's closing price the next day.
 
 ## Execution Process
 1. Install the required dependencies.
